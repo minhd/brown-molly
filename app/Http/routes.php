@@ -17,7 +17,12 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
+
+    // define the models
     Route::model('users', 'App\User');
+    Route::model('tasks', 'App\Task');
+
+    //define the resource routes
     Route::resource('users', 'UserController');
     Route::resource('tasks','TaskController');
 

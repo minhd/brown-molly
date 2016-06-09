@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Task as Task;
+use Validator;
 
 class TaskController extends Controller
 {
@@ -16,7 +15,6 @@ class TaskController extends Controller
      */
     public function index()
     {
-
         return Task::all();
     }
 
@@ -38,7 +36,21 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255'
+        ]);
+
+        if ($validator->fails()) {
+            return "validator fails";
+        }
+
+        $task = new Task([
+            'name' => $request->input('name'),
+            'status' => Task::getDefaultStatus()
+        ]);
+
+        $task->save();
+        return $task;
     }
 
     /**
