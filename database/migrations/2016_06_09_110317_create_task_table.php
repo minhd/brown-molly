@@ -18,7 +18,6 @@ class CreateTaskTable extends Migration
             $table->timestamps();
             $table->dateTime('completed_at');
             $table->string('status');
-
         });
     }
 
