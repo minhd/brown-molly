@@ -13,8 +13,18 @@ class UserTest extends TestCase
      */
     public function testExample()
     {
-        $content = $this->call('GET', '/api/users')->getContent();
-        $content = json_decode($content, true);
-        $this->assertGreaterThan(0, sizeof($content));
+        $response = $this->call('GET', '/api/users');
+        $data = $this->parseJson($response);
+        $this->assertIsJson($data);
+        $this->assertInternalType('array', $data);
+    }
+
+    protected function parseJson(Illuminate\Http\JsonResponse $response)
+    {
+        return json_decode($response->getContent());
+    }
+    protected function assertIsJson($data)
+    {
+        $this->assertEquals(0, json_last_error());
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User as User;
 use Validator;
+use Response;
 
 class UserController extends Controller
 {
@@ -15,7 +16,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return User::all();
+        $data = User::all();
+        return Response::json($data);
     }
 
     /**
