@@ -7,11 +7,11 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class UserTest extends TestCase
 {
     /**
-     * A basic test example.
+     * GET /api/users/
      *
      * @return void
      */
-    public function testExample()
+    public function testGetAllUser()
     {
         $response = $this->call('GET', '/api/users');
         $data = $this->parseJson($response);
@@ -23,6 +23,7 @@ class UserTest extends TestCase
     {
         return json_decode($response->getContent());
     }
+
     protected function assertIsJson($data)
     {
         $this->assertEquals(0, json_last_error());
