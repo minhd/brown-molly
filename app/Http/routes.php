@@ -28,7 +28,7 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
 
     // Lists
     Route::model('lists', 'App\UserList');
-    Route::resource('lists','UserListController');
+    Route::resource('listsp','UserListController');
 
     // Users -> Lists
     Route::resource('users.lists', 'UserListRelationController');

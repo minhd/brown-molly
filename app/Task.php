@@ -14,6 +14,10 @@ class Task extends Model
     public static function getDefaultStatus() {
         return self::$defaultStatus;
     }
+
+    function user(){
+    	return $this->belongsTo('App\User');
+    }
 }
 
 

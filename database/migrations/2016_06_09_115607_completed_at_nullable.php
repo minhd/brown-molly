@@ -12,7 +12,7 @@ class CompletedAtNullable extends Migration
      */
     public function up()
     {
-        Schema::table('tasks', function ($table) {
+        Schema::table('tasks', function (Blueprint $table) {
             $table->dateTime('completed_at')->nullable()->change();
         });
     }
@@ -24,6 +24,8 @@ class CompletedAtNullable extends Migration
      */
     public function down()
     {
-        $table->dateTime('completed_at')->change();
+        Schema::table('tasks', function(Blueprint $table){
+            $table->dateTime('completed_at')->change();
+        });
     }
 }
