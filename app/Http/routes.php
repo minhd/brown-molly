@@ -18,13 +18,25 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
 
-    // define the models
+    // Users
     Route::model('users', 'App\User');
-    Route::model('tasks', 'App\Task');
-
-    //define the resource routes
     Route::resource('users', 'UserController');
+
+    // Tasks
+    Route::model('tasks', 'App\Task');
     Route::resource('tasks','TaskController');
+
+    // Lists
+    Route::model('lists', 'App\UserList');
+    Route::resource('lists','UserListController');
+
+    // Users -> Lists
+    Route::resource('users.lists', 'UserListRelationController');
+
+    // todo dynamically generate list of resource routes here
+    Route::get('/', function(){
+        return ['users', 'tasks', 'lists'];
+    });
 
 });
 

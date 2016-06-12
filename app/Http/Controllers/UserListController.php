@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\User as User;
+use App\UserList as UserList;
 use Validator;
-use Response;
 
-class UserController extends Controller
+class UserListController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +15,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
-        $users = User::all();
-        if ($request->input('with')=='lists') {
-            $users->load('lists');
+        $lists = UserList::all();
+        if ($request->input('with') == 'user') {
+            $lists->load('user');
         }
-        return $users;
+        return $lists;
     }
 
     /**
@@ -42,24 +40,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'email' => 'required|unique:users',
-            'password' => 'required',
+            'user_id' => 'required|exists:users,id'
         ]);
 
         if ($validator->fails()) {
-            return "validator fails";
+            return $validator->errors()->all();
         }
 
-        $user = new User([
+        $list = new UserList([
             'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password'))
+            'user_id' => $request->input('user_id')
         ]);
 
-        $user->save();
-        return $user;
+        $list->save();
+        return $list;
     }
 
     /**
@@ -68,12 +65,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, Request $request)
+    public function show(UserList $list, Request $request)
     {
-        if ($request->input('with') == 'lists') {
-            $user->load('lists');
+        if ($request->input('with') == 'user') {
+            $list->load('user');
         }
-        return $user;
+        return $list;
     }
 
     /**
@@ -105,8 +102,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(UserList $list)
     {
-        return (string) $user->delete();
+        return (string) $list->delete();
     }
 }

@@ -1,27 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\User as User;
-use Validator;
-use Response;
 
-class UserController extends Controller
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
+use App\User;
+use App\UserList;
+
+class UserListRelationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(User $user, UserList $list)
     {
-
-        $users = User::all();
-        if ($request->input('with')=='lists') {
-            $users->load('lists');
-        }
-        return $users;
+        return $user->load('lists');
     }
 
     /**
@@ -42,24 +39,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'email' => 'required|unique:users',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return "validator fails";
-        }
-
-        $user = new User([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password'))
-        ]);
-
-        $user->save();
-        return $user;
+        //
     }
 
     /**
@@ -68,12 +48,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, Request $request)
+    public function show(User $user, UserList $list)
     {
-        if ($request->input('with') == 'lists') {
-            $user->load('lists');
-        }
-        return $user;
+        return $list;
     }
 
     /**
@@ -105,8 +82,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        return (string) $user->delete();
+        //
     }
 }
