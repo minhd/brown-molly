@@ -37,19 +37,21 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
+            'user_id' => 'required|exists:users,id'
         ]);
 
         if ($validator->fails()) {
-            return "validator fails";
+            return $validator->errors()->all();
         }
 
         $task = new Task([
             'name' => $request->input('name'),
-            'status' => Task::getDefaultStatus()
+            'user_id' => $request->input('user_id')
         ]);
 
         $task->save();
+
         return $task;
     }
 
