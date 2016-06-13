@@ -46,12 +46,18 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
  * api_token authentication
  * api_token will authenticate to the user who owns that token
  * @todo only allow to deal with owned resource
- * @todo throttle
+ * throttle to 60 requests every minute
  */
-Route::group(['prefix'=> 'api/v1', 'middleware' => 'auth:api, cors'], function() {
+Route::group(
+    [
+        'prefix'=> 'api/v1',
+        'middleware' => ['throttle:60', 'auth:api', 'cors']
+    ]
+    , function() {
 
     // api/v1/
     Route::get('/', function(){
+        return Auth::guard('api')->getTokenForRequest();
         return Auth::guard('api')->user();
     });
 
