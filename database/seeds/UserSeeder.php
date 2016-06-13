@@ -30,5 +30,15 @@ class UserSeeder extends Seeder
             'user_id' => $firstUser->id
         ]);
         $list->save();
+
+        // create user with api_token
+        $user = new App\User([
+            'name' => 'webuser',
+            'email' => 'webuser@localhost',
+            'password' => bcrypt('webuser')
+        ]);
+        $user->api_token = str_random(60);
+        $user->save();
+
     }
 }
