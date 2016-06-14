@@ -1,23 +1,25 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Task as Task;
-use Validator;
 
-class TaskController extends Controller
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
+use App\User;
+use App\Task;
+
+
+class UserTaskRelationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user , Task $task)
     {
-        $tasks = Task::all();
-        $tasks->load('user');
-        return $tasks;
+        return $user->load('tasks');
     }
 
     /**
@@ -38,23 +40,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'user_id' => 'required|exists:users,id'
-        ]);
-
-        if ($validator->fails()) {
-            return $validator->errors()->all();
-        }
-
-        $task = new Task([
-            'name' => $request->input('name'),
-            'user_id' => $request->input('user_id')
-        ]);
-
-        $task->save();
-
-        return $task;
+        //
     }
 
     /**
@@ -63,9 +49,8 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+   public function show(User $user, Task $task)
     {
-        $task->load('user');
         return $task;
     }
 
