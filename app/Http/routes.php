@@ -42,6 +42,31 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
 
 });
 
+/**
+ * api/v1 will now require
+ * X-Requested-With=XMLHttpRequest
+ * api_token authentication
+ * api_token will authenticate to the user who owns that token
+ * @todo only allow to deal with owned resource
+ * throttle to 60 requests every minute
+ */
+Route::group(
+    [
+        'prefix'=> 'api/v1',
+        'middleware' => ['throttle:60', 'auth:api', 'cors']
+    ]
+    , function() {
+
+    // api/v1/
+    Route::get('/', function(){
+        return Auth::guard('api')->getTokenForRequest();
+        return Auth::guard('api')->user();
+    });
+
+    Route::get('users/{user}', function(App\User $user) {
+        return $user;
+    });
+});
 
 use Faker\Factory as Faker;
 Route::get('/populate', function(){
