@@ -49,7 +49,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return "validator fails";
+            return $validator->errors()->all();
         }
 
         $user = new User([
