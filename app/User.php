@@ -24,11 +24,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    function lists() {
+    public function lists()
+    {
         return $this->hasMany('App\UserList');
     }
 
-    function tasks(){
+    public function tasks()
+    {
         return $this->hasMany('App\Task');
     }
 }

@@ -12,7 +12,8 @@ class Task extends Model
     protected $fillable = ["name", "list_id"];
     protected $attributes = [ "status"=>"PENDING" ];
 
-    public static function getDefaultStatus() {
+    public static function getDefaultStatus()
+    {
         return self::$defaultStatus;
     }
 
@@ -40,5 +41,3 @@ class Task extends Model
         return $this->belongsTo('App\UserList');
     }
 }
-
-

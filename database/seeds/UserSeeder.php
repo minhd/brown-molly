@@ -11,23 +11,30 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $firstUser = new App\User([
-            'name' => 'Trung',
-            'email' => 'trung@trung.com',
-            'password' => bcrypt('123')
+        $testUser = new App\User([
+            'name' => 'Jonathan Faker',
+            'email' => 'john@fake.com',
+            'password' => bcrypt('marie')
         ]);
-        $firstUser->save();
+        $testUser->api_token = str_random(60);
+        $testUser->save();
 
-        $task = new App\Task([
-            'name' => 'Trungy first task',
-            'status' => App\Task::getDefaultStatus()
+        // lists
+        $list = new App\UserList([
+            'name' => 'Notes',
+            'user_id' => $testUser->id
         ]);
-        $task->user_id = $firstUser->id;
-        $task->save();
+        $list->save();
 
         $list = new App\UserList([
-            'name' => 'Trungy first list',
-            'user_id' => $firstUser->id
+            'name' => 'Todo list',
+            'user_id' => $testUser->id
+        ]);
+        $list->save();
+
+        $list = new App\UserList([
+            'name' => 'Quotes',
+            'user_id' => $testUser->id
         ]);
         $list->save();
 
