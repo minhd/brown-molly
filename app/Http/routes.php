@@ -32,8 +32,10 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
 
     // Users -> Lists
     Route::resource('users.lists', 'UserListRelationController');
-    // Users-> Tasks
+    // Users -> Tasks
     Route::resource('users.tasks','UserTaskRelationController');
+    // Lists -> Tasks
+    Route::resource('lists.tasks','ListTaskRelationController');
 
     // todo dynamically generate list of resource routes here
     Route::get('/', function(){

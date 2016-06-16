@@ -18,6 +18,8 @@ class UserListController extends Controller
         $lists = UserList::all();
         if ($request->input('with') == 'user') {
             $lists->load('user');
+        } elseif ($request->input('with') == 'tasks') {
+            $lists->load('tasks');
         }
         return $lists;
     }

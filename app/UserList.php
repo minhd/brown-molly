@@ -11,4 +11,13 @@ class UserList extends Model
     function user() {
         return $this->belongsTo('App\User');
     }
+
+    function getUser()
+    {
+    	return User::find($this->user_id);
+    }
+
+    function tasks() {
+    	return $this->hasMany('App\Task', 'list_id');
+    }
 }
