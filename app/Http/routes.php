@@ -70,6 +70,27 @@ Route::group(
     });
 });
 
+use Illuminate\Support\Facades\Redis;
+
+Route::get('/redis/monitor', function() {
+    return view('welcome');
+});
+
+Route::get('/redis/hit', function() {
+    $data = [
+        'event' => 'userSignedUp',
+        'data' => [
+            'username' => 'JohnDoe'
+        ]
+    ];
+
+    event(new App\Events\UserSignedUp('JohnDoe'));
+
+    // Redis::publish('test-channel', json_encode($data));
+
+    return "Done";
+});
+
 use Faker\Factory as Faker;
 Route::get('/populate', function(){
     $faker = Faker::create();
